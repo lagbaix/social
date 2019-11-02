@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('filter/filtre_invite.php');
 require('config/database.php');
 require('includes/fonctions.php');
 require('includes/constantes.php');
@@ -53,6 +54,11 @@ if(isset($_POST['enregistrer'])){
         	 	ob_start();
         	 	require('templates/emails/activation.tmpl.php');
         	 	$content = ob_get_clean();
+               /* $headers ='From: simplice@ita-education.cf' . "\r\n" .
+                    'Reply-To: simplice@ita-education.cf' . "\r\n" .
+                    'X-Mailer: PHP/' . phpversion(); 
+                $headers .= 'MIME-Version: 1.0' . "\r\n";
+                $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";*/
         	 	$headers= 'MIME-Version: 1.0' . "\r\n";
         	 	$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         	 	mail($to, $subject, $content, $headers);

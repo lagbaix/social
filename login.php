@@ -1,5 +1,6 @@
 <?php
 session_start();
+require('filter/filtre_invite.php');
 require('config/database.php');
 require('includes/fonctions.php');
 require('includes/constantes.php');
@@ -11,7 +12,7 @@ if(isset($_POST['login'])){
     if(!empty($_POST['identifiant']) && !empty($_POST['password'])){
         extract($_POST);
 
-        $req = $con->prepare("SELECT id FROM users WHERE (pseudo = :identifiant OR email = :identifiant) AND password = :password AND active = '1'");
+        $req = $con->prepare("SELECT id, pseudo FROM users WHERE (pseudo = :identifiant OR email = :identifiant) AND password = :password AND active = '1'");
 
         $req->execute([
             'identifiant' => $identifiant,
@@ -21,7 +22,12 @@ if(isset($_POST['login'])){
 
         $userHasBeenFound = $req->rowCount();
         if ($userHasBeenFound) {
-           redirect('profile.php');
+            $user = $req->fetch(PDO::FETCH_OBJ);
+
+            $_SESSION['user_id'] = $user->id;
+            $_SESSION['user_pseudo'] = $user->pseudo;
+
+           redirect('profile.php?id='.$user->id);
         }else{
             set_flash('Conbinaison login ou mot de passe incorrect!', 'danger');
             sauvedonne();
