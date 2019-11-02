@@ -24,6 +24,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap core CSS en local-->
     <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
+    <script src="https://kit.fontawesome.com/b652a357cc.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="assets/css/main.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
