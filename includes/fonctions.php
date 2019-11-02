@@ -14,6 +14,20 @@ if (!function_exists('e')) {
 	}
 
 
+//acceder au contenu de la session
+	if (!function_exists('get_session')) {
+	function get_session($key){
+		if (!empty($_SESSION[$key])) {
+				return e($_SESSION[$key]);
+			
+		}else{
+			return null;
+		}
+		
+		}
+	}
+
+
 
 //Fonction de verification de l'existence d'un champ dans la base de donnée
 if (!function_exists('utilise')) {
@@ -106,5 +120,44 @@ if (!function_exists('set_active')) {
 	}
 }
 
+
+
+//Fonction de recherche d'un utilisateur par son id
+if (!function_exists('rechercher')) {
+
+	function rechercher($id){
+
+		global $con;
+
+		$q = $con->prepare("SELECT name, pseudo, email,  ville, pays, twittter, github, sexe, disponible_pour_emploi, biographie FROM users WHERE  id = ? ");
+
+		$q->execute([$id]);
+
+		//$data = current($q->fetchAll(PDO::FETCH_OBJ));
+		$data = $q->fetch(PDO::FETCH_OBJ);
+
+		$q->closeCursor();
+		return $data;
+	}	
+}
+
+
+//Fonction d'affichage d'image de profil provenant de gravatar
+if (!function_exists('get_avatar')){
+	function get_avatar( $email) {
+    
+    return "https://www.gravatar.com/avatar/".md5(strtolower(trim(e($email))))."?s=";
+}
+}
+//Verifie si l'utilisateur est connecté
+
+if (!function_exists('connecte')){
+	function connecte( ) {
+    
+    return isset($_SESSION['user_id']) || isset($_SESSION['user_pseudo']);
+  }
+}
 //
+
+
 
